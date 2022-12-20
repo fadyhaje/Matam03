@@ -4,13 +4,14 @@
 
 #include "HealthPoints.h"
 
-HealthPoints::HealthPoints(int max_hp ): m_max_hp(max_hp),m_hp(max_hp)
+HealthPoints::HealthPoints(int max_hp ) 
 {
     if(max_hp<=0)
     {
     throw HealthPoints::InvalidArgument();
     }
-
+m_max_hp=max_hp;
+    m_hp=max_hp;
 }
  bool operator==(const HealthPoints& h1, const HealthPoints& h2)
 {if(h1.m_hp==h2.m_hp)

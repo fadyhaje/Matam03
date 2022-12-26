@@ -174,12 +174,12 @@ bool Queue<T>::Iterator::operator!=(const Iterator& it) const{
 
 template<class T>
 typename Queue<T>::Iterator& Queue<T>::Iterator::operator++(){
-  if(m_queue->m_member)
+/**********  if(m_queue->m_member)
   {
       throw Queue<T>::EmptyQueue();
   }
   m_queue->m_member=m_queue->m_member->m_next;
-    return *this;
+    return *this;*////////////////////////////////////////////////////!!
 }
 ////////////CONSTITERATOR_CODE/////////////////////////////////////////////
 template<class T>

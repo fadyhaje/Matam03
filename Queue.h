@@ -79,20 +79,20 @@ void Queue<T>::popFront()
 
 template<class T>
 void Queue<T>::pushBack(T new_member)
-{
+{ Node* added_member=new Node;
+    added_member->m_data=new_member;
+    added_member->m_next=nullptr;
     if(!(m_member))
     {
-        m_member->m_data=new_member;
-        m_member-> m_next=NULL;
+        m_member=added_member;
     }
     else{
-        Queue added_member;
-        added_member.m_member->m_data=new_member;
-        while(m_member->m_next)
+        Node* temp=m_member;
+        while(temp->m_next)
         {
-            m_member=m_member->m_next;
+            temp=temp->m_next;
         }
-        m_member->m_next=added_member.m_member;
+        temp->m_next=added_member;
     }
 
 }

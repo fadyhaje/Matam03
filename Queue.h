@@ -50,11 +50,11 @@ Node* m_member;
 template<class T,class Condition>
 Queue<T> filter(Queue<T>queue, Condition c )
 {Queue<T> result;
-    for(const Queue<T>& member : queue)
+    for(const typename Queue<T>::Node& member : queue)
     {
-        if(c(member.front()))
+        if(c(member.get_M_data()))
         {
-            result.pushBack(member.front());
+            result.pushBack(member.get_M_data());
         }
 
     }
@@ -62,6 +62,7 @@ Queue<T> filter(Queue<T>queue, Condition c )
 
 
 }
+
 
 void Queue<T>::popFront()
 
@@ -78,7 +79,7 @@ void Queue<T>::popFront()
 }
 
 template<class T>
-void Queue<T>::pushBack(T new_member)
+void Queue<T>::pushBack(const T new_member)
 { Node* added_member=new Node;
     added_member->m_data=new_member;
     added_member->m_next=nullptr;
@@ -104,6 +105,10 @@ public:
         Node()=default;
         ~Node()=default;
         Node(const Node& node)=default;
+    T get_M_data() const
+        {
+            return m_data;
+        }
 private:
         T m_data;
         Queue<T>::Node* m_next;
@@ -117,21 +122,21 @@ private:
 template<class T>
 class Queue<T>::Iterator{
   
-   Queue<T>* m_queue;
-   
-   Iterator( Queue<T>* queue):m_queue(queue){}
+  Node* m_queue;
+
+   Iterator( Node* queue):m_queue(queue){}
 
    friend class Queue<T>;
 
 public:
-    const Queue<T>& operator*() const;
-   
+    const Queue<T>::Node& operator*() const;
+
     Iterator& operator++();
-   
+
     bool operator!=(const Iterator& it) const;
-   
+
     Iterator(const Iterator&)=default;
-   
+
     Iterator& operator=(const Iterator&)=default;
 
 };
@@ -160,7 +165,7 @@ public:
 
 ////////////ITERATOR_CODE/////////////////////////////////////////////
 template<class T>
-const Queue<T>& Queue<T>::Iterator:: operator*() const
+const typename Queue<T>::Node& Queue<T>::Iterator:: operator*() const
 {
      return *m_queue;
 }
@@ -171,15 +176,15 @@ bool Queue<T>::Iterator::operator!=(const Iterator& it) const{
     return (m_queue!=it.m_queue);
 }
 
-
 template<class T>
 typename Queue<T>::Iterator& Queue<T>::Iterator::operator++(){
-/**********  if(m_queue->m_member)
+  if(m_queue)
   {
-      throw Queue<T>::EmptyQueue();
+      m_queue=m_queue->m_next;
+
   }
-  m_queue->m_member=m_queue->m_member->m_next;
-    return *this;*////////////////////////////////////////////////////!!
+
+    return *this;
 }
 ////////////CONSTITERATOR_CODE/////////////////////////////////////////////
 template<class T>
@@ -197,13 +202,13 @@ bool Queue<T>::ConstIterator::operator!=(const ConstIterator& it) const{
 
 template<class T>
 typename Queue<T>::ConstIterator& Queue<T>::ConstIterator::operator++(){
-    if(m_queue->m_member)
+ /*   if(m_queue->m_member)
     {
         throw Queue<T>::EmptyQueue();
     }
     m_queue->m_member=m_queue->m_member->m_next;
     return *this;
-}
+}*//////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 template<class T>
 typename Queue<T>::Iterator Queue<T>:: begin() {

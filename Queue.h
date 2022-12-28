@@ -24,7 +24,7 @@ public:
 
     T& front() const;
 
-    Queue():m_member(NULL){}
+    Queue():m_member(nullptr){}
 
     void pushBack(T new_member);
 
@@ -143,9 +143,9 @@ public:
 //////CONSTITERATOR CLASS/////////////////////////////////////////////////
 template<class T>
 class Queue<T>::ConstIterator{
-  const Queue<T>* m_queue;
+  const Node* m_queue;
   
-  ConstIterator( const Queue<T>* queue):m_queue(queue){}
+  ConstIterator( const Node* queue):m_queue(queue){}
 
   friend class Queue<T>;
 
@@ -188,7 +188,7 @@ typename Queue<T>::Iterator& Queue<T>::Iterator::operator++(){
 }
 ////////////CONSTITERATOR_CODE/////////////////////////////////////////////
 template<class T>
-const Queue<T>& Queue<T>::ConstIterator:: operator*() const
+const typename Queue<T>::Node& Queue<T>::ConstIterator:: operator*() const
 {
     return *m_queue;
 }
@@ -201,14 +201,16 @@ bool Queue<T>::ConstIterator::operator!=(const ConstIterator& it) const{
 
 
 template<class T>
+template<class T>
 typename Queue<T>::ConstIterator& Queue<T>::ConstIterator::operator++(){
- /*   if(m_queue->m_member)
+    Queue<T>::Node* temp;
+   if(m_queue)
     {
-        throw Queue<T>::EmptyQueue();
+        temp=m_queue->m_next;
     }
-    m_queue->m_member=m_queue->m_member->m_next;
+    *this=temp;
     return *this;
-}*//////////////////////////////////////
+}
 //////////////////////////////////////////////////////////////////////////////////
 template<class T>
 typename Queue<T>::Iterator Queue<T>:: begin() {

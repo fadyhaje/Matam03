@@ -50,11 +50,11 @@ private:
 template<class T,class Condition>
 Queue<T> filter(Queue<T>queue, Condition c )
 {Queue<T> result;
-    for(const typename Queue<T>::Node& member : queue)
+    for(const T& member : queue)
     {
-        if(c(member.get_M_data()))
+        if(c(member))
         {
-            result.pushBack(member.get_M_data());
+            result.pushBack(member);
         }
 
     }
@@ -71,7 +71,7 @@ void Queue<T>::popFront()
     {
         throw Queue<T>::EmptyQueue();
     }
-    if(!(m_member->m_next))  {
+  else  if(m_member->m_next)  {
         Queue<T>::Node *temp=m_member;
         m_member= m_member->m_next;
         delete temp;
@@ -113,10 +113,7 @@ public:
     Node()=default;
     ~Node()=default;
     Node(const Node& node)=default;
-    T get_M_data() const
-    {
-        return m_data;
-    }
+   
 private:
     T m_data;
     Queue<T>::Node* m_next;
@@ -137,7 +134,7 @@ class Queue<T>::Iterator{
     friend class Queue<T>;
 
 public:
-    const Queue<T>::Node& operator*() const;
+    const T& operator*() const;
 
     Iterator& operator++();
 
@@ -160,7 +157,7 @@ class Queue<T>::ConstIterator{
 
 public:
 
-    const Queue<T>::Node& operator*() const;
+    const T& operator*() const;
 
     ConstIterator& operator++();
 
@@ -174,11 +171,10 @@ public:
 
 ////////////ITERATOR_CODE/////////////////////////////////////////////
 template<class T>
-const typename Queue<T>::Node& Queue<T>::Iterator:: operator*() const
+const T& Queue<T>::Iterator:: operator*() const
 {
-    return *m_queue;
+    return m_queue->m_data;
 }
-
 
 template<class T>
 bool Queue<T>::Iterator::operator!=(const Iterator& it) const{
@@ -197,9 +193,9 @@ typename Queue<T>::Iterator& Queue<T>::Iterator::operator++(){
 }
 ////////////CONSTITERATOR_CODE/////////////////////////////////////////////
 template<class T>
-const typename Queue<T>::Node& Queue<T>::ConstIterator:: operator*() const
+const T& Queue<T>::ConstIterator:: operator*() const
 {
-    return *m_queue;
+    return m_queue->m_data;
 }
 
 

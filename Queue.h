@@ -22,7 +22,7 @@ public:
     ConstIterator end() const;
 
     T& front();
-    
+
     const T& front() const;
 
     Queue():m_size(0),m_member(nullptr){}
@@ -51,7 +51,7 @@ private:
 template<class T>
 class Queue<T>::Node{
 public:
-    
+
     /*
      * C'tor of Node class
      *the constructor is the default constructor
@@ -65,7 +65,7 @@ public:
      *
     */
     ~Node()=default;
-    
+
     /*
     *  *@param node
     *       The node that will be copied
@@ -78,7 +78,7 @@ public:
     */
     Node(const Node& node)=default;
 
-    private:
+private:
     Queue<T>::Node* m_next;
     T m_data;
     friend class Queue<T>;
@@ -90,28 +90,28 @@ public:
 template <class T>
 Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
 {
-   if(queue.m_member!=nullptr)
-   {
-       while((queue.m_member)!=nullptr)
-       {
-           try
-           {
-               this->pushBack((queue.m_member)->m_data);
-           }
-           catch(std::bad_alloc& exception){
-               Queue<T>::Node* temp=m_member;
-               while(m_member!=nullptr)
-               {
-                   temp=m_member;
-                   m_member=m_member->m_next;
-                   delete temp;
-               }
-               m_size=0;
-               throw exception;
-           }
-           queue.m_member=(queue.m_member)->m_next;
-       }
-   }
+    if(queue.m_member!=nullptr)
+    {
+        while((queue.m_member)!=nullptr)
+        {
+            try
+            {
+                this->pushBack((queue.m_member)->m_data);
+            }
+            catch(std::bad_alloc& exception){
+                Queue<T>::Node* temp=m_member;
+                while(m_member!=nullptr)
+                {
+                    temp=m_member;
+                    m_member=m_member->m_next;
+                    delete temp;
+                }
+                m_size=0;
+                throw exception;
+            }
+            queue.m_member=(queue.m_member)->m_next;
+        }
+    }
 }
 
 template <class T>
@@ -139,26 +139,26 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue)
         Queue<T>::Node* temp_begin=temp;
         Queue<T>::Node* single_node=nullptr;
         while((queue.m_member)!=nullptr)
-       {
-           try
-           {
-               single_node=new Node();
-           }
-           catch(std::bad_alloc& exception){
-               Queue<T>::Node* temp=temp_begin;
-               while(temp_begin!=nullptr)
-               {
-                   temp=temp_begin;
-                   temp_begin=temp_begin->m_next;
-                   delete temp;
-               }
-               throw exception;
-           }
+        {
+            try
+            {
+                single_node=new Node();
+            }
+            catch(std::bad_alloc& exception){
+                Queue<T>::Node* temp=temp_begin;
+                while(temp_begin!=nullptr)
+                {
+                    temp=temp_begin;
+                    temp_begin=temp_begin->m_next;
+                    delete temp;
+                }
+                throw exception;
+            }
             single_node->data=(queue.m_member)->data;
             temp->next=single_node;
             queue.m_member=(queue.m_member)->m_next;
             temp=temp->next;
-       }
+        }
         Queue<T>::Node* helper;
         while(m_member!=nullptr)
         {
@@ -185,39 +185,40 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue)
 template <class T,typename P>
 Queue<T> filter(const Queue<T> &queue,P function)
 {
-  Queue<T> result;
-  for(typename Queue<T>::ConstIterator index=queue.begin(); index!= queue.end();++index)
-  {
-      if(!function(*index))
-      {
-          continue;
-      }
-      result.pushBack(*index);
-  }
-}
- /*
     Queue<T> result;
-    for(const T& member : queue)
+    for(typename Queue<T>::ConstIterator index=queue.begin(); index!= queue.end();++index)
     {
-        if(c(member))
+        if(!function(*index))
         {
-            result.pushBack(member);
+            continue;
         }
-
+        result.pushBack(*index);
     }
     return result;
+}
+/*
+   Queue<T> result;
+   for(const T& member : queue)
+   {
+       if(c(member))
+       {
+           result.pushBack(member);
+       }
+
+   }
+   return result;
 
 
 }*/
 
 
 template <class T,typename P>
-void transform(const Queue<T> &queue,P function)
+void transform( Queue<T> &queue,P function)
 {
-  for(typename Queue<T>::ConstIterator index=queue.begin(); index!= queue.end();++index)
-  {
-      function(*index);
-  }
+    for( typename Queue<T>::Iterator index=queue.begin(); index!= queue.end();++index)
+    {
+        function(*(index));
+    }
 }
 
 
@@ -331,7 +332,7 @@ public:
     Node()=default;
     ~Node()=default;
     Node(const Node& node)=default;
-   
+
 private:
     T m_data;
     Queue<T>::Node* m_next;
@@ -441,25 +442,25 @@ typename Queue<T>::ConstIterator& Queue<T>::ConstIterator::operator++(){
 template<class T>
 typename Queue<T>::Iterator Queue<T>::begin()
 {
-    return Iterator(this->m_member);
+    return Iterator(this, this->m_size);
 }
 
 template<class T>
 typename Queue<T>::Iterator Queue<T>::end()
 {
-    return Iterator(nullptr);
+    return Iterator(nullptr,0);
 }
 
 template<class T>
 typename Queue<T>::ConstIterator Queue<T>::begin() const
 {
-    return ConstIterator(this->m_member);
+    return ConstIterator(this, this->m_size);
 }
 
 template<class T>
 typename Queue<T>::ConstIterator Queue<T>::end() const
 {
-    return ConstIterator(nullptr);
+    return ConstIterator(nullptr,0);
 }
 
 template<class T>
@@ -474,12 +475,12 @@ public:
     Iterator operator++(int);
     T& operator*() const;
     class InvalidOperation{};
-   
+
 private:
-  friend class Queue<T>;
-  Queue<T>* queue;
-  int index;
-  Iterator(Queue<T>* queue, int index);
+    friend class Queue<T>;
+    Queue<T>* queue;
+    int index;
+    Iterator(Queue<T>* queue, int index);
 };
 
 template<class T>
@@ -526,13 +527,13 @@ typename Queue<T>::Iterator Queue<T>::Iterator::operator++(int)
 template<class T>
 T& Queue<T>::Iterator::operator*() const
 {
-  assert((index >= 0) && (index < queue->size()));
-  Queue<T>::Node* temp=queue->m_member;
-  for(int i=0;i<index;i++)
-  {
-      temp=temp->m_next;
-  }
-  return temp->m_data;
+    assert((index >= 0) && (index < queue->size()));
+    Queue<T>::Node* temp=queue->m_member;
+    for(int i=0;i<index;i++)
+    {
+        temp=temp->m_next;
+    }
+    return temp->m_data;
 }
 
 
@@ -548,12 +549,12 @@ public:
     ConstIterator operator++(int);
     const T& operator*() const;
     class InvalidOperation{};
-   
+
 private:
-  friend class Queue<T>;
-  const Queue<T>* queue;
-  int index;
-  ConstIterator(const Queue<T>* queue, int index);
+    friend class Queue<T>;
+    const Queue<T>* queue;
+    int index;
+    ConstIterator(const Queue<T>* queue, int index);
 };
 
 template<class T>
@@ -600,13 +601,13 @@ typename Queue<T>::ConstIterator Queue<T>::ConstIterator::operator++(int)
 template<class T>
 const T& Queue<T>::ConstIterator::operator*() const
 {
-  assert((index >= 0) && (index < queue->size()));
-  Queue<T>::Node* temp=queue->m_member;
-  for(int i=0;i<index;i++)
-  {
-      temp=temp->m_next;
-  }
-  return temp->m_data;
+    assert((index >= 0) && (index < queue->size()));
+    Queue<T>::Node* temp=queue->m_member;
+    for(int i=0;i<index;i++)
+    {
+        temp=temp->m_next;
+    }
+    return temp->m_data;
 }
 
 #endif //UNTITLED2_QUEUE_H

@@ -92,12 +92,11 @@ Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
 {
    if(queue.m_member!=nullptr)
    {
-       Queue<T>::Node* copied_queue=queue.m_member;
-       while(copied_queue!=nullptr)
+       while((queue.m_member)!=nullptr)
        {
            try
            {
-               this->pushBack(copied_queue->m_data);
+               this->pushBack((queue.m_member)->m_data);
            }
            catch(std::bad_alloc& exception){
                Queue<T>::Node* temp=m_member;
@@ -110,7 +109,7 @@ Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
                m_size=0;
                throw exception;
            }
-           copied_queue=copied_queue->m_next;
+           queue.m_member=(queue.m_member)->m_next;
        }
    }
 }
@@ -128,11 +127,59 @@ Queue<T>::~Queue()
     m_size=0;
 }
 
-//there is need?
 template <class T>
 Queue<T>& Queue<T>:: operator=(const Queue<T>& queue)
 {
-    
+    if (this==&queue)
+    {
+        return *this;
+    }
+    if(queue.m_member!=nullptr){
+        Queue<T>::Node* temp=new Node();
+        Queue<T>::Node* temp_begin=temp;
+        Queue<T>::Node* single_node=nullptr;
+        while((queue.m_member)!=nullptr)
+       {
+           try
+           {
+               single_node=new Node();
+           }
+           catch(std::bad_alloc& exception){
+               Queue<T>::Node* temp=temp_begin;
+               while(temp_begin!=nullptr)
+               {
+                   temp=temp_begin;
+                   temp_begin=temp_begin->m_next;
+                   delete temp;
+               }
+               throw exception;
+           }
+            single_node->data=(queue.m_member)->data;
+            temp->next=single_node;
+            queue.m_member=(queue.m_member)->m_next;
+            temp=temp->next;
+       }
+        Queue<T>::Node* helper;
+        while(m_member!=nullptr)
+        {
+            helper=m_member;
+            m_member=m_member->m_next;
+            delete helper;
+        }
+        m_size=queue.size();
+        m_member=temp_begin;
+        return *this;
+    }
+    else
+    {
+        Queue<T>::Node* temp=m_member;
+        while(m_member!=nullptr){
+            temp=m_member;
+            m_member=m_member->m_next;
+            delete temp;
+        }
+        return *this;
+    }
 }
 
 template <class T,typename P>

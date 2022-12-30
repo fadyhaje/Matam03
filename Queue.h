@@ -25,9 +25,9 @@ public:
     
     const T& front() const;
 
-    Queue():m_member(nullptr){}
+    Queue():m_size(0),m_member(nullptr){}
 
-    void pushBack(T new_member);
+    void pushBack(const T& new_member);
 
     Queue<T>& popFront();
 
@@ -52,7 +52,7 @@ template<class T>
 class Queue<T>::Node{
 public:
     
-    /* 
+    /*
      * C'tor of Node class
      *the constructor is the default constructor
      */
@@ -62,8 +62,8 @@ public:
     /*
      * d’tor of Node class
      *the destructor is the default destructor
-     *   
-    */ 
+     *
+    */
     ~Node()=default;
     
     /*
@@ -75,7 +75,7 @@ public:
     * @ return
     *     A copy of the the node
     * the copy constructor is the default copy constructor
-    */ 
+    */
     Node(const Node& node)=default;
 
     private:
@@ -85,12 +85,7 @@ public:
 
 };
 
-template <class T>
-Queue<T>::Queue()
-{
-    m_head = nullptr;
-    m_size=0;
-}
+
 
 template <class T>
 Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
@@ -144,16 +139,16 @@ template <class T,typename P>
 Queue<T> filter(const Queue<T> &queue,P function)
 {
   Queue<T> result;
-  for(Queue<T>::ConstIterator index=queue.begin(); index!= queue.end();++index)
+  for(typename Queue<T>::ConstIterator index=queue.begin(); index!= queue.end();++index)
   {
       if(!function(*index))
       {
           continue;
-      }  
+      }
       result.pushBack(*index);
   }
 }
- /*   
+ /*
     Queue<T> result;
     for(const T& member : queue)
     {
@@ -172,9 +167,9 @@ Queue<T> filter(const Queue<T> &queue,P function)
 template <class T,typename P>
 void transform(const Queue<T> &queue,P function)
 {
-  for(Queue<T>::ConstIterator index=queue.begin(); index!= queue.end();++index)
+  for(typename Queue<T>::ConstIterator index=queue.begin(); index!= queue.end();++index)
   {
-      function(*index); 
+      function(*index);
   }
 }
 
@@ -208,7 +203,7 @@ int Queue<T>::size() const{
 
 template<class T>
 T& Queue<T>::front()
-{ 
+{
     if(m_size!=0)
     {
         Queue<T>::Iterator index=this->begin();
@@ -219,7 +214,7 @@ T& Queue<T>::front()
 
 template<class T>
 const T& Queue<T>::front() const
-{ 
+{
     if(m_size!=0)
     {
         Queue<T>::ConstIterator index=this->begin();
@@ -230,8 +225,8 @@ const T& Queue<T>::front() const
 
 template<class T>
 void Queue<T>::pushBack(const T& new_member)
-{ 
-    Queue<T>::Node* added_member=new Queue<T> Node();
+{
+    Queue<T>::Node* added_member=new Queue<T>::Node();
     added_member->m_data=new_member;
     //added_member->m_next=nullptr;
     if(m_size!=0)
@@ -267,7 +262,7 @@ template<class T>
 class Queue<T>::ConstIterator Queue<T>::begin() const
 {
     return ConstIterator(this, 0);
-} 
+}
 
 template<class T>
 class Queue<T>::Iterator Queue<T>::end()
@@ -397,25 +392,25 @@ typename Queue<T>::ConstIterator& Queue<T>::ConstIterator::operator++(){
 */
 
 template<class T>
-Queue<T>::Iterator Queue<T>::begin()
+typename Queue<T>::Iterator Queue<T>::begin()
 {
     return Iterator(this->m_member);
 }
 
 template<class T>
-Queue<T>::Iterator Queue<T>::end()
+typename Queue<T>::Iterator Queue<T>::end()
 {
     return Iterator(nullptr);
 }
 
 template<class T>
-Queue<T>::ConstIterator Queue<T>::begin() const
+typename Queue<T>::ConstIterator Queue<T>::begin() const
 {
     return ConstIterator(this->m_member);
 }
 
 template<class T>
-Queue<T>::ConstIterator Queue<T>::end() const
+typename Queue<T>::ConstIterator Queue<T>::end() const
 {
     return ConstIterator(nullptr);
 }
@@ -450,7 +445,7 @@ bool Queue<T>::Iterator::operator==(const Iterator& other) const
 {
     assert(other.queue==queue);
     return (other.index==index);
-} 
+}
 
 template<class T>
 bool Queue<T>::Iterator::operator!=(const Iterator& other) const
@@ -459,7 +454,7 @@ bool Queue<T>::Iterator::operator!=(const Iterator& other) const
 }
 
 template<class T>
-Queue<T>::Iterator& Queue<T>::Iterator::operator++()
+typename Queue<T>::Iterator& Queue<T>::Iterator::operator++()
 {
     if((*this)!=queue->end())
     {
@@ -470,7 +465,7 @@ Queue<T>::Iterator& Queue<T>::Iterator::operator++()
 }
 
 template<class T>
-Queue<T>::Iterator Queue<T>::Iterator::operator++(int)
+typename Queue<T>::Iterator Queue<T>::Iterator::operator++(int)
 {
     if(this!=queue->end())
     {
@@ -488,7 +483,7 @@ T& Queue<T>::Iterator::operator*() const
   Queue<T>::Node* temp=queue->m_member;
   for(int i=0;i<index;i++)
   {
-      temp=temp->m_next; 
+      temp=temp->m_next;
   }
   return temp->m_data;
 }
@@ -524,7 +519,7 @@ bool Queue<T>::ConstIterator::operator==(const ConstIterator& other) const
 {
     assert(other.queue==queue);
     return (other.index==index);
-} 
+}
 
 template<class T>
 bool Queue<T>::ConstIterator::operator!=(const ConstIterator& other) const
@@ -533,7 +528,7 @@ bool Queue<T>::ConstIterator::operator!=(const ConstIterator& other) const
 }
 
 template<class T>
-Queue<T>::ConstIterator& Queue<T>::ConstIterator::operator++()
+typename Queue<T>::ConstIterator& Queue<T>::ConstIterator::operator++()
 {
     if((*this)!=queue->end())
     {
@@ -544,7 +539,7 @@ Queue<T>::ConstIterator& Queue<T>::ConstIterator::operator++()
 }
 
 template<class T>
-Queue<T>::ConstIterator Queue<T>::ConstIterator::operator++(int)
+typename Queue<T>::ConstIterator Queue<T>::ConstIterator::operator++(int)
 {
     if(this!=queue->end())
     {
@@ -556,16 +551,15 @@ Queue<T>::ConstIterator Queue<T>::ConstIterator::operator++(int)
 }
 
 template<class T>
-T& Queue<T>::ConstIterator::operator*() const
+const T& Queue<T>::ConstIterator::operator*() const
 {
   assert((index >= 0) && (index < queue->size()));
   Queue<T>::Node* temp=queue->m_member;
   for(int i=0;i<index;i++)
   {
-      temp=temp->m_next; 
+      temp=temp->m_next;
   }
   return temp->m_data;
 }
 
 #endif //UNTITLED2_QUEUE_H
-

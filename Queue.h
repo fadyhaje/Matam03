@@ -91,7 +91,7 @@ template <class T>
 Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
 {
     Queue<T>::Node* current_first_node=queue.m_member;
-    if(queue.m_member!=nullptr)
+    if(current_first_node!=nullptr)
     {
         while(current_first_node!=nullptr)
         {

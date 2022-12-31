@@ -90,13 +90,14 @@ private:
 template <class T>
 Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
 {
+    Queue<T>::Node* current_first_node=queue.m_member;
     if(queue.m_member!=nullptr)
     {
-        while((queue.m_member)!=nullptr)
+        while(current_first_node!=nullptr)
         {
             try
             {
-                this->pushBack((queue.m_member)->m_data);
+                this->pushBack(current_first_node->m_data);
             }
             catch(std::bad_alloc& exception){
                 Queue<T>::Node* temp=m_member;
@@ -109,7 +110,7 @@ Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
                 m_size=0;
                 throw exception;
             }
-            queue.m_member=(queue.m_member)->m_next;
+            current_first_node=current_first_node->m_next;
         }
     }
 }

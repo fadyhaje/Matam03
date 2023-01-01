@@ -112,7 +112,7 @@ Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
             }
             current_first_node=current_first_node->m_next;
         }
-         m_size=queue.m_size;
+         //m_size=queue.m_size;
     }
 }
 

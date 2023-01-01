@@ -245,7 +245,7 @@ Queue<T> filter(const Queue<T> &queue,P function)
     {
         if(function(*index))
         {
-result.pushBack(*index);   
+            result.pushBack(*index);   
         }
     }
     return result;
@@ -308,7 +308,8 @@ T& Queue<T>::front()
 {
     if(m_size!=0)
     {
-        return m_member->m_data;
+        Queue<T>::Iterator index=this->begin();
+        return *index;
     }
     throw Queue<T>::EmptyQueue();
 }
@@ -318,7 +319,8 @@ const T& Queue<T>::front() const
 {
     if(m_size!=0)
     {
-        return m_member->m_data;
+        Queue<T>:: ConstIterator index=this->begin();
+        return *index; 
     }
     throw Queue<T>::EmptyQueue();
 }

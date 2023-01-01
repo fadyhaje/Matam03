@@ -493,6 +493,7 @@ Queue<T>::Iterator::Iterator(Queue<T>* queue, int index):queue(queue),index(inde
 template<class T>
 bool Queue<T>::Iterator::operator==(const Iterator& other) const
 {
+    assert(other.queue==queue);
     return (other.index==index);
 }
 

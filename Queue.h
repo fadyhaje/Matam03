@@ -457,7 +457,7 @@ typename Queue<T>::Iterator Queue<T>::end()
     {
         throw typename Queue<T>::Iterator::InvalidOperation();
     }
-    return Iterator(nullptr,m_size+1);
+    return Iterator(this,m_size+1);
 }
 
 template<class T>
@@ -475,7 +475,7 @@ typename Queue<T>::ConstIterator Queue<T>::end() const
     }
 
 
-    return ConstIterator(nullptr,m_size+1);
+    return ConstIterator(this,m_size+1);
 }
 
 template<class T>
@@ -629,11 +629,11 @@ const T& Queue<T>::ConstIterator::operator*() const
     assert((index >= 0) && (index < (queue->size())+1));
     if(queue!= nullptr&&!this)
     {        Queue<T>::Node* temp=queue->m_member;
-    for(int i=0;i<index;i++)
-    {
-        temp=temp->m_next;
-    }
-    return temp->m_data;}
+        for(int i=0;i<index;i++)
+        {
+            temp=temp->m_next;
+        }
+        return temp->m_data;}
     throw Queue<T>::ConstIterator::InvalidOperation();
 
 }

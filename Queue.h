@@ -111,8 +111,8 @@ Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
                 throw exception;
             }
             current_first_node=current_first_node->m_next;
-            m_size++;
         }
+         m_size=queue.m_size;
     }
 }
 
@@ -237,7 +237,7 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue)
     }
 }
 */
-template <class T,typename P>
+template <typename T,typename P>
 Queue<T> filter(const Queue<T> &queue,P function)
 {
     Queue<T> result;
@@ -267,10 +267,10 @@ Queue<T> filter(const Queue<T> &queue,P function)
 }*/
 
 
-template <class T,typename P>
+template <typename T,typename P>
 void transform( Queue<T> &queue,P function)
 {
-    for( typename Queue<T>::Iterator index=queue.begin(); index!= queue.end();++index)
+    for(typename Queue<T>::Iterator index=queue.begin(); index!= queue.end();++index)
     {
         function(*(index));
     }

@@ -167,13 +167,13 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
             other_queue=other_queue->m_next;
             result=result->m_next;
         }
-        this.~Queue();
+        (*this).~Queue();
         m_size=queue.m_size;
         m_member=result_begin;
         return *this;
     }
     else{
-        this.~Queue();
+        (*this).~Queue();
         return *this;
     }
 }

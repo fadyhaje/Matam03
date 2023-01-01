@@ -111,6 +111,7 @@ Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
                 throw exception;
             }
             current_first_node=current_first_node->m_next;
+            m_size++;
         }
     }
 }
@@ -118,7 +119,7 @@ Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
 template <class T>
 Queue<T>::~Queue()
 {
-    Queue<T>::Node* temp;
+    Queue<T>::Node* temp=m_member;
     while(m_member!=nullptr)
     {
         temp=m_member;

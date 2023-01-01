@@ -138,8 +138,11 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue)
     if(queue.m_member!=nullptr){
         Queue<T>::Node* temp=new Node();
         Queue<T>::Node* temp_begin=temp;
+        Queue<T>::Node* other_queue=queue.member;
+        temp_begin->m_data=othere_queue->m_data;
+        other_queue=other_queue->m_next;
         Queue<T>::Node* single_node=nullptr;
-        while((queue.m_member)!=nullptr)
+        while(other_queue!=nullptr)
         {
             try
             {
@@ -155,9 +158,9 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue)
                 }
                 throw exception;
             }
-            single_node->data=(queue.m_member)->data;
+            single_node->data=other_queue->data;
             temp->next=single_node;
-            queue.m_member=(queue.m_member)->m_next;
+            other_queue=other_queue->m_next;
             temp=temp->next;
         }
         Queue<T>::Node* helper;

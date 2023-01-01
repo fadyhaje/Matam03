@@ -567,6 +567,7 @@ Queue<T>::ConstIterator::ConstIterator(const Queue<T>* queue, int index):queue(q
 template<class T>
 bool Queue<T>::ConstIterator::operator==(const ConstIterator& other) const
 {
+    assert(other.queue==queue);
     return (other.index==index);
 }
 

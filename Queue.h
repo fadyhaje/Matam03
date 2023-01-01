@@ -131,17 +131,17 @@ Queue<T>::~Queue()
 template <class T>
 Queue<T>& Queue<T>:: operator=(const Queue<T>& queue)
 {
+    Queue<T>::Node* temp_first_node=new Node();
+    Queue<T>::Node* temp=temp_first_node;
+    Queue<T>::Node* other_queue=queue.m_member;
+    temp_first_node->m_data=other_queue->m_data;
+    other_queue=other_queue->m_next;
+    Queue<T>::Node* single_node=nullptr;
     if (this==&queue)
     {
         return *this;
     }
-    if(queue.m_member!=nullptr){
-        Queue<T>::Node* temp=new Node();
-        Queue<T>::Node* temp_begin=temp;
-        Queue<T>::Node* other_queue=queue.m_member;
-        temp_begin->m_data=other_queue->m_data;
-        other_queue=other_queue->m_next;
-        Queue<T>::Node* single_node=nullptr;
+    if(other_queue!=nullptr){
         while(other_queue!=nullptr)
         {
             try
@@ -149,21 +149,21 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue)
                 single_node=new Node();
             }
             catch(std::bad_alloc& exception){
-                Queue<T>::Node* temp=temp_begin;
-                while(temp_begin!=nullptr)
+                Queue<T>::Node* helper=nullptr;
+                while(temp_first_node!=nullptr)
                 {
-                    temp=temp_begin;
-                    temp_begin=temp_begin->m_next;
-                    delete temp;
+                    helper=temp_first_node;
+                    temp_first_node=temp_first_node->m_next;
+                    delete helper;
                 }
                 throw exception;
             }
-            single_node->m_data=other_queue->m_data;
             temp->m_next=single_node;
+            single_node->m_data=other_queue->m_data;
             other_queue=other_queue->m_next;
             temp=temp->m_next;
         }
-        Queue<T>::Node* helper;
+        Queue<T>::Node* helper=nullptr;
         while(m_member!=nullptr)
         {
             helper=m_member;
@@ -171,16 +171,16 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue)
             delete helper;
         }
         m_size=queue.size();
-        m_member=temp_begin;
+        m_member=temp_first_node;
         return *this;
     }
     else
     {
-        Queue<T>::Node* temp=m_member;
+        Queue<T>::Node* helper=nullptr;
         while(m_member!=nullptr){
-            temp=m_member;
+            helper=m_member;
             m_member=m_member->m_next;
-            delete temp;
+            delete helper;
         }
         return *this;
     }

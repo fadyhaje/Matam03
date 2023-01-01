@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <iostream>
-#include "assert.h"
+#include <assert.h>
+#include <new>
 using namespace std;
 ///////////////QUEUE CLASS/////////////////
 template<class T>
@@ -25,7 +26,7 @@ public:
 
     const T& front() const;
 
-    Queue():m_size(0),m_member(nullptr){}
+    Queue();
 
     void pushBack(const T& new_member);
 
@@ -112,6 +113,9 @@ Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
             current_first_node=current_first_node->m_next;
         }
         //m_size=queue.m_size;
+    }
+    else{
+        return;
     }
 }
 

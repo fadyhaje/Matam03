@@ -241,8 +241,8 @@ Queue<T>& Queue<T>::popFront()
             m_member=m_member->m_next;
             delete temp;
         } else {
-            m_member = nullptr;
             delete temp;
+            m_member = nullptr;
         }
         m_size--;
         return *this;

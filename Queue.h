@@ -280,17 +280,18 @@ void transform( Queue<T> &queue,P function)
 template<class T>
 Queue<T>& Queue<T>::popFront()
 {
-    if(m_size!=0)
+    Queue<T>::Node *temp = m_member->m_next;
+    if(m_size!=0 && m_size!=1)
     {
-        Queue<T>::Node *temp = m_member->m_next;
-        if (m_size != 1) {
-            m_member->m_next=temp->m_next;
-            m_member->m_data=temp->m_data;
-            delete temp;
-        } else {
-            delete m_member;
-            m_member = nullptr;
-        }
+        m_member->m_next=temp->m_next;
+        m_member->m_data=temp->m_data;
+        delete temp;
+        m_size--;
+        return *this;
+    }
+    else if(m_size!=0 && m_size==1){
+        delete m_member;
+        m_member = nullptr;
         m_size--;
         return *this;
     }

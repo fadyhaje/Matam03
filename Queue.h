@@ -276,7 +276,26 @@ void transform( Queue<T> &queue,P function)
     }
 }
 
-
+template <class T>
+Queue<T>& Queue<T> :: popFront(){
+  if(m_size==0){
+    throw Queue<T>::EmptyQueue();
+  }
+  // there is just one node
+  if(m_size == 1){ 
+    delete m_member;
+    m_member=nullptr;
+    m_size--;
+    return *this;
+  }
+  Queue<T>::Node* temp=m_member->m_next;
+  m_member->m_data=temp->m_data;
+  m_member->m_next=temp->m_next;
+  delete temp;
+  m_size--;
+  return *this;
+}
+/*
 template<class T>
 Queue<T>& Queue<T>::popFront()
 {
@@ -295,7 +314,7 @@ Queue<T>& Queue<T>::popFront()
         return *this;
     }
     throw Queue<T>::EmptyQueue();
-}
+}*/
 
 
 template<class T>
@@ -324,6 +343,26 @@ const T& Queue<T>::front() const
 }
 
 
+template <class T>
+void Queue<T> :: pushBack(const T& newData){
+    Queue<T>::Node* added=new Queue<T>::Node();
+    added->m_data=newData;
+    if(m_size==0)
+    {
+        m_member = added;
+    }
+    else
+    {
+        Queue<T>::Node* temp=m_member;
+        while(temp->m_next!=nullptr){
+            temp=temp->m_next;
+        }
+        temp->m_next=added;
+    }
+    m_size++;
+}
+
+/*
 template<class T>
 void Queue<T>::pushBack(const T& new_member)
 {
@@ -344,7 +383,7 @@ void Queue<T>::pushBack(const T& new_member)
         m_member=added_member;
     }
     m_size++;
-}
+}*/
 
 /*template<class T>
 T& Queue<T>:: front() const

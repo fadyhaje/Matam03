@@ -261,6 +261,16 @@ T& Queue<T>::front()
     throw Queue<T>::EmptyQueue();
 }
 
+template<class T>
+const T& Queue<T>::front() const
+{
+    if(m_size!=0)
+    {
+        Queue<T>::ConstIterator index=this->begin();
+        return *index;
+    }
+    throw Queue<T>::EmptyQueue();
+}
 
 
 template<class T>

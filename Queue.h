@@ -259,8 +259,7 @@ T& Queue<T>::front()
 {
     if(m_size!=0)
     {
-        Queue<T>::Iterator index=this->begin();
-        return *index;
+        return m_member->m_data;
     }
     throw Queue<T>::EmptyQueue();
 }
@@ -270,8 +269,7 @@ const T& Queue<T>::front() const
 {
     if(m_size!=0)
     {
-        Queue<T>::ConstIterator index=this->begin();
-        return *index;
+        return m_member->m_data;
     }
     throw Queue<T>::EmptyQueue();
 }

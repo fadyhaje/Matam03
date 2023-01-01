@@ -48,8 +48,7 @@ HealthPoints HealthPoints::operator+(const int health) const {
 
 HealthPoints operator+(const int health1, HealthPoints& object)
 {
-    HealthPoints result(object+health1);
-    return result;
+    return object+health1;
 }
 HealthPoints HealthPoints::operator-(const int health) const {
     HealthPoints temp(*this);
@@ -57,8 +56,7 @@ HealthPoints HealthPoints::operator-(const int health) const {
 }
 HealthPoints operator-(const int health1, HealthPoints& object)
 {
-    HealthPoints result(object-health1);
-    return result;
+    return object-health1;
 }
 bool operator==(const HealthPoints& h1, const HealthPoints& h2)
 {

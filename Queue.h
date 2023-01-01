@@ -151,7 +151,13 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
     src=src->m_next;
     while(src!= nullptr){
       try{
-        newNode=new Queue<T>::Node();
+          while(src!= nullptr){
+              newNode=new Queue<T>::Node();
+              newNode->m_data=(src->m_data);
+              target->m_next=newNode;
+              target=target->m_next;
+              src=src->m_next;  
+          }
       }
       catch(std::bad_alloc& exception){
         while(start_target!=nullptr){
@@ -160,11 +166,6 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
           delete tmp;
         }
         throw exception;
-      }
-      newNode->m_data=(src->m_data);
-      target->m_next=newNode;
-      target=target->m_next;
-      src=src->m_next;
       }
       while(m_member!=nullptr){
         Queue<T>::Node* tmp=m_member;

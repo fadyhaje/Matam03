@@ -14,26 +14,25 @@ public:
      * C'tor of HealthPoints class
      *
      *param max_hp
-     *    the maximum healthpoints the object couldh have
-     *    in case the usesr didn't send one it would be set as 100
+     *    max_hp eqaulls the maximum healthpoint,default=100
      * @return
-     *      A new Healthpoints object
+     *      a new healthoint
      * .
     */
 
     HealthPoints(int max_hp = DEFAULT_MAX_HP);
 
 /*
-* Error in case of an negative values 
+* class for non positive or zero values 
 */
     class InvalidArgument {} ;
 
 
 /*
 * param health
-*   the health we need to add to the current health points
+*   the health equalls healthponits that we want to add to *this
 * return
-*   reference to the object
+*   reference of the object
 * 
 */
     int get()
@@ -45,18 +44,18 @@ public:
 
 /*
 *param health
-*   the health we need to subtract to the current health points
+*   the health equalls healthponits we want to subtract from *this
 * return
-*   reference to the object
+*   reference of the object
 */
 
     HealthPoints& operator-=(const int health);
 
 /*
 * param health
-*   the health we need to add to the current health points
+*   the health equalls healthponits that we want to add to *this
 * return
-*    an object that was updated according to health
+*    the updated object after adding health
 * 
 */
 
@@ -64,9 +63,9 @@ public:
 
 /*
 *param health
-*   the health we need to subtract to the current health points
+*   the health equalls healthponits we want to subtract from *this
 * return
-*    an object that was updated according to health
+*    the updated object after subtracting health
 */
 
     HealthPoints operator-(const int health) const;
@@ -76,30 +75,27 @@ private:
     int m_max_hp;
 
 /*
-*prints the current object's health points out of the maximum health points
-* for example: 
-*   current health points:100, maximum health points:150
-*   prints 100(150)
+*prints the the healthpoints of the object with max_hp
 */
 
     friend std :: ostream& operator<<(std:: ostream& os,const HealthPoints& object);
 
 /*
-*compares the health points of h1 and h2 
+*checks if the health points of h1 and h2 are equall
 *  return :
-*        true in case of equal health points
-*        false, otherwise
+*        equall healthponits between h1 &h2 =true 
+*        otherwsie =false, otherwise
 */
     friend bool operator==(const HealthPoints& h1, const HealthPoints& h2);
 
 /*
-*compares the health points of h1 and h2 
+*checks if  the health points of h1 are smaller than h2 
 *param 
-*  h1, the first object we want to compare with
-*  h2, the second object we want to compare with
+*  h1, the first object 
+*  h2, the second object 
 *  return :
-*        true in case the first object(h1) has less health points than the second object(h2)
-*        false, otherwise
+*        healthponits of h1 is smaller than h2 =true 
+*        otherwise=false
 */
 
     friend bool operator<(const HealthPoints& h1, const HealthPoints& h2);
@@ -107,70 +103,70 @@ private:
 };
 
 /*
-*compares the health points of h1 and h2
+*checks if  the health points of h1 and h2 are different
 *param
-*  h1, the first object we want to compare with
-*  h2, the second object we want to compare with
+*  h1, the first object 
+*  h2, the second object 
 *  return :
-*        true in case the two objects have different health points
-*        false, otherwise
+*        the healthpoints of h1 &h2 are equal=true 
+*        otherwise=false
 */
 
 bool operator!=(const HealthPoints& h1,const HealthPoints& h2);
 
 /*
-*compares the health points of h1 and h2 
+*checks if the health points of h1 is samller or equall to h2 healthponits
 *param 
-*  h1, the first object we want to compare with
-*  h2, the second object we want to compare with
+*  h1, the first object 
+*  h2, the second object
 *  return :
-*        true in case the first object(h1) has less or equal health points than the second object(h2)
-*        false, otherwise
+*        the healthpoints of h1 is smaller or equall to h2 =true  
+*        otherwise=false
 */
 
 bool operator<=(const HealthPoints& h1,const HealthPoints& h2);
 
 /*
-*compares the health points of h1 and h2 
+*checks if the health points of h1 is bigger or equal than h2 
 *param 
-*  h1, the first object we want to compare with
-*  h2, the second object we want to compare with
+*  h1, the first object 
+*  h2, the second object 
 *  return :
-*        true in case the first object(h1) has more or equal health points than the second object(h2)
-*        false, otherwise
+*        the healthpoints of h1 is bigger or equall to h2 =true in  
+*        otherwise=false
 */
 
 bool operator>=(const HealthPoints& h1,const HealthPoints& h2);
 
 /*
-*compares the health points of h1 and h2 
+*checks if the health points of h1 is bigger than h2 
 *param 
-*  h1, the first object we want to compare with
-*  h2, the second object we want to compare with
+*  h1, the first object 
+*  h2, the second object
 *  return :
-*        true in case the first object(h1) more health points than the second object(h2)
-*        false, otherwise
+*        the healthponits of h1 is bigger than h2=true 
+*        otherwise=false
 */
 
 bool operator>(const HealthPoints& h1,const HealthPoints& h2);
 
 /*
 *param num
-*  the number we want to add to the object's health points 
+*  health1 we want to add to the health2 health points 
 *param object
-*   the object we want to add certain amount(num) of health points to
+*   health2 the object we want to increase his healthpoints
 * return
-*    an object that was updated according to num
+*    object after beign updated
 */
 
 HealthPoints operator+(const int health1, HealthPoints& health2) ;
 /*
 *param num
-*  the number we want to subtract from the object's health points
+*  health1 we want to subtract to the health2 health points 
 *param object
-*   the object we want to subtract certain amount(num) of health points to
+*   health2 the object we want to decrease his healthpoints
 * return
-*    an object that was updated according to num
+*    object after beign updated
 */
 
 HealthPoints operator-(const int health1, HealthPoints& health2) ;

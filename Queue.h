@@ -236,13 +236,8 @@ Queue<T>& Queue<T>::popFront()
     }
     else {
         Queue<T>::Node *temp = m_member;
-        if (m_size != 1) {
-            m_member=m_member->next;
-            delete temp;
-        } else {
-            m_member = nullptr;
-            delete temp;
-        }
+        m_member=m_member->next;
+        delete temp;
         m_size--;
         return *this;
     }

@@ -154,22 +154,22 @@ bool operator>(const HealthPoints& h1,const HealthPoints& h2);
 *param num
 *  health1 we want to add to the health2 health points 
 *param object
-*   health2 the object we want to increase his healthpoints
+*   object the object we want to increase his healthpoints
 * return
 *    object after beign updated
 */
 
-HealthPoints operator+(const int health1, HealthPoints& health2) ;
+HealthPoints operator+(const int health1, HealthPoints& object) ;
 /*
 *param num
 *  health1 we want to subtract to the health2 health points 
 *param object
-*   health2 the object we want to decrease his healthpoints
+*   object the object we want to decrease his healthpoints
 * return
-*    object after beign updated
+*   object after beign updated
 */
 
-HealthPoints operator-(const int health1, HealthPoints& health2) ;
+HealthPoints operator-(const int health1, HealthPoints& object) ;
 
 
 #endif 

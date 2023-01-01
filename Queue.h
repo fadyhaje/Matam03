@@ -235,20 +235,16 @@ Queue<T>& Queue<T>::popFront()
         throw Queue<T>::EmptyQueue();
     }
     else {
+        Queue<T>::Node *temp = m_member;
         if (m_size != 1) {
-            Queue<T>::Node *temp = m_member;
-            m_member->m_data = (m_member->m_next)->m_data;
-            m_member->m_next = (m_member->m_next)->m_next;
-            delete (temp);
+            m_member=m_member->next;
+            delete temp;
         } else {
-            Queue<T>::Node *temp = m_member;
             m_member = nullptr;
             delete temp;
         }
-
         m_size--;
         return *this;
-
     }
 }
 

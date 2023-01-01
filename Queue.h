@@ -149,7 +149,6 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
     Queue<T>::Node* target=start_target;
     Queue<T>::Node* newNode=nullptr;
     src=src->m_next;
-    while(src!= nullptr){
       try{
           while(src!= nullptr){
               newNode=new Queue<T>::Node();

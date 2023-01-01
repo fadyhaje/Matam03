@@ -130,6 +130,55 @@ Queue<T>::~Queue()
 }
 
 template <class T>
+Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
+  if (this==&queue)
+  {
+    return *this;
+  }
+  if(queue.m_member==nullptr){
+    while(m_member!=nullptr){
+      Queue<T>::Node* tmp=m_member;
+      m_member=m_member->m_next;
+      delete tmp;
+    }
+    return *this;
+  }
+    Queue<T>::Node* src=queue.m_member;
+    Queue<T>::Node* start_target=new Queue<T>::Node();
+    start_target->m_data=src->m_data;
+    Queue<T>::Node* target=start_target;
+    Queue<T>::Node* newNode=nullptr;
+    src=src->m_next;
+    while(src!= nullptr){
+      try{
+        newNode=new Queue<T>::Node();
+      }
+      catch(std::bad_alloc& exception){
+        while(start_target!=nullptr){
+          Queue<T>::Node* tmp=start_target;
+          start_target=start_target->m_next;
+          delete tmp;
+        }
+        throw exception;
+      }
+      newNode->m_data=(src->m_data);
+      target->m_next=newNode;
+      target=target->m_next;
+      src=src->m_next;
+      }
+      while(m_member!=nullptr){
+        Queue<T>::Node* tmp=m_member;
+        m_hmember=m_member->m_next;
+        delete tmp;
+      }
+      m_member=start_target;
+      m_size=queue.m_size;
+      return *this;
+}
+/*
+
+
+template <class T>
 Queue<T>& Queue<T>:: operator=(const Queue<T>& queue)
 {
     Queue<T>::Node* temp_first_node=new Node();
@@ -187,7 +236,7 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue)
         return *this;
     }
 }
-
+*/
 template <class T,typename P>
 Queue<T> filter(const Queue<T> &queue,P function)
 {

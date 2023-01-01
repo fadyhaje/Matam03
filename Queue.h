@@ -226,8 +226,6 @@ void transform( Queue<T> &queue,P function)
 }
 
 
-
-//////////////////////???
 template<class T>
 Queue<T>& Queue<T>::popFront()
 {
@@ -236,16 +234,18 @@ Queue<T>& Queue<T>::popFront()
         throw Queue<T>::EmptyQueue();
     }
     else if(m_size!=1)  {
-        Queue<T>::Node *temp=m_member;
-        m_member= m_member->m_next;
-        delete temp;
+        m_member->m_next= (m_member->next)->m_next;
+        m_member->m_data= (m_member->next)->m_data;
+        delete (m_member->next);
         m_size--;
         return *this;
     }
-    delete m_member;
-    m_member=nullptr;
-    m_size--;
-    return *this;
+    else{
+        delete m_member;
+        m_member=nullptr;
+        m_size--;
+        return *this;
+    }
 }
 
 template<class T>

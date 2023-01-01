@@ -112,7 +112,7 @@ Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
             }
             current_first_node=current_first_node->m_next;
         }
-         //m_size=queue.m_size;
+        //m_size=queue.m_size;
     }
 }
 
@@ -131,49 +131,49 @@ Queue<T>::~Queue()
 
 template <class T>
 Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
-  if (this==&queue)
-  {
-    return *this;
-  }
-  if(queue.m_member==nullptr){
-    while(m_member!=nullptr){
-      Queue<T>::Node* tmp=m_member;
-      m_member=m_member->m_next;
-      delete tmp;
+    if (this==&queue)
+    {
+        return *this;
     }
-    return *this;
-  }
+    if(queue.m_member==nullptr){
+        while(m_member!=nullptr){
+            Queue<T>::Node* tmp=m_member;
+            m_member=m_member->m_next;
+            delete tmp;
+        }
+        return *this;
+    }
     Queue<T>::Node* src=queue.m_member;
     Queue<T>::Node* start_target=new Queue<T>::Node();
     start_target->m_data=src->m_data;
     Queue<T>::Node* target=start_target;
     Queue<T>::Node* newNode=nullptr;
     src=src->m_next;
-      try{
-          while(src!= nullptr){
-              newNode=new Queue<T>::Node();
-              newNode->m_data=(src->m_data);
-              target->m_next=newNode;
-              target=target->m_next;
-              src=src->m_next;  
-          }
-      }
-      catch(std::bad_alloc& exception){
+    try{
+        while(src!= nullptr){
+            newNode=new Queue<T>::Node();
+            newNode->m_data=(src->m_data);
+            target->m_next=newNode;
+            target=target->m_next;
+            src=src->m_next;
+        }
+    }
+    catch(std::bad_alloc& exception){
         while(start_target!=nullptr){
-          Queue<T>::Node* tmp=start_target;
-          start_target=start_target->m_next;
-          delete tmp;
+            Queue<T>::Node* tmp=start_target;
+            start_target=start_target->m_next;
+            delete tmp;
         }
         throw exception;
-      }
-      while(m_member!=nullptr){
+    }
+    while(m_member!=nullptr){
         Queue<T>::Node* tmp=m_member;
-        m_hmember=m_member->m_next;
+        m_member=m_member->m_next;
         delete tmp;
-      }
-      m_member=start_target;
-      m_size=queue.m_size;
-      return *this;
+    }
+    m_member=start_target;
+    m_size=queue.m_size;
+    return *this;
 }
 /*
 
@@ -282,9 +282,9 @@ Queue<T>& Queue<T>::popFront()
 {
     if(m_size!=0)
     {
-        Queue<T>::Node *temp = m_member->next;
+        Queue<T>::Node *temp = m_member->m_next;
         if (m_size != 1) {
-            m_member->next=temp->m_next;
+            m_member->m_next=temp->m_next;
             m_member->m_data=temp->m_data;
             delete temp;
         } else {

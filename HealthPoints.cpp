@@ -49,7 +49,7 @@ HealthPoints HealthPoints::operator+(const int health) const {
 HealthPoints operator+(const int health1, HealthPoints& health2)
 {
     HealthPoints result(health2+health1);
-return result;
+    return result;
 }
 HealthPoints HealthPoints::operator-(const int health) const {
     HealthPoints temp(*this);

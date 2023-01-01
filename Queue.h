@@ -138,8 +138,8 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue)
     if(queue.m_member!=nullptr){
         Queue<T>::Node* temp=new Node();
         Queue<T>::Node* temp_begin=temp;
-        Queue<T>::Node* other_queue=queue.member;
-        temp_begin->m_data=othere_queue->m_data;
+        Queue<T>::Node* other_queue=queue.m_member;
+        temp_begin->m_data=other_queue->m_data;
         other_queue=other_queue->m_next;
         Queue<T>::Node* single_node=nullptr;
         while(other_queue!=nullptr)
@@ -158,10 +158,10 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue)
                 }
                 throw exception;
             }
-            single_node->data=other_queue->data;
-            temp->next=single_node;
+            single_node->m_data=other_queue->m_data;
+            temp->m_next=single_node;
             other_queue=other_queue->m_next;
-            temp=temp->next;
+            temp=temp->m_next;
         }
         Queue<T>::Node* helper;
         while(m_member!=nullptr)
@@ -453,10 +453,10 @@ typename Queue<T>::Iterator Queue<T>::begin()
 template<class T>
 typename Queue<T>::Iterator Queue<T>::end()
 {
-if(!(this))
-{
-    throw typename Queue<T>::Iterator::InvalidOperation();
-}
+    if(!(this))
+    {
+        throw typename Queue<T>::Iterator::InvalidOperation();
+    }
     return Iterator(nullptr,m_size);
 }
 

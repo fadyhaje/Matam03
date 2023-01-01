@@ -138,50 +138,44 @@ Queue<T>::~Queue()
 
 template <class T>
 Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
+    Queue<T>::Node* single_node= nullptr;
+    Queue<T>::Node* result_begin=new Queue<T>::Node();
+    Queue<T>::Node* other_queue=queue.m_member;
+    result_begin->m_data=other_queue->m_data;
+    Queue<T>::Node* result=result_begin;
+    other_queue=other_queue->m_next;
     if (this==&queue)
     {
         return *this;
     }
-    if(queue.m_member==nullptr){
-        while(m_member!=nullptr){
-            Queue<T>::Node* tmp=m_member;
-            m_member=m_member->m_next;
-            delete tmp;
+    if(queue.m_size!=0){
+        while(other_queue!= nullptr){
+            try{
+                single_node=new Queue<T>::Node();
+            }
+            catch(std::bad_alloc& exception){
+                Queue<T>::Node* temp=result_begin;
+                while(result_begin!=nullptr){
+                    temp=result_begin;
+                    result_begin=result_begin->m_next;
+                    delete temp;
+                }
+                throw exception;
+            }
+            result->m_next=single_node;
+            single_node->m_data=(other_queue->m_data);
+            other_queue=other_queue->m_next;
+            result=result->m_next;
         }
+        this.~Queue();
+        m_size=queue.m_size;
+        m_member=result_begin;
         return *this;
     }
-    Queue<T>::Node* src=queue.m_member;
-    Queue<T>::Node* start_target=new Queue<T>::Node();
-    start_target->m_data=src->m_data;
-    Queue<T>::Node* target=start_target;
-    Queue<T>::Node* newNode= nullptr;
-    src=src->m_next;
-    while(src!= nullptr){
-        try{
-            newNode=new Queue<T>::Node();
-        }
-        catch(std::bad_alloc& exception){
-            while(start_target!=nullptr){
-                Queue<T>::Node* tmp=start_target;
-                start_target=start_target->m_next;
-                delete tmp;
-            }
-            throw exception;
-        }
-        newNode->m_data=(src->m_data);
-        target->m_next=newNode;
-        target=target->m_next;
-        src=src->m_next;
+    else{
+        this.~Queue();
+        return *this;
     }
-
-    while(m_member!=nullptr){
-        Queue<T>::Node* tmp=m_member;
-        m_member=m_member->m_next;
-        delete tmp;
-    }
-    m_member=start_target;
-    m_size=queue.m_size;
-    return *this;
 }
 /*
 

@@ -57,18 +57,14 @@ public:
      *the constructor is the default constructor
      */
 
-    Node(const T& data): m_data(new T()),m_next(nullptr){
-        m_data=data;
-    }
+    Node()=default;
 
     /*
      * d’tor of Node class
      *the destructor is the default destructor
      *
     */
-    ~Node(){
-        delete m_data;
-    };
+    ~Node()=default;
 
     /*
     *  *@param node
@@ -80,10 +76,7 @@ public:
     *     A copy of the the node
     * the copy constructor is the default copy constructor
     */
-    Node(const Node& node):m_data(new T()),m_next(nullptr){
-        m_data=node->m_data;
-        m_next=node->m_next;
-    };
+    Node(const Node& node)=default;
 
 private:
     Queue<T>::Node* m_next;
@@ -151,13 +144,15 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
         return *this;
     }
     Queue<T>::Node* src=queue.m_member;
-    Queue<T>::Node* start_target=new Queue<T>::Node(src->data);
+    Queue<T>::Node* start_target=new Queue<T>::Node();
+    start_target->m_data=src->m_data;
     Queue<T>::Node* target=start_target;
-    Queue<T>::Node* newNode=nullptr;
+    Queue<T>::Node* newNode;
     src=src->m_next;
     try{
         while(src!= nullptr){
-            newNode=new Queue<T>::Node(Src->data);
+            newNode=new Queue<T>::Node();
+            newNode->m_data=(src->m_data);
             target->m_next=newNode;
             target=target->m_next;
             src=src->m_next;
@@ -332,7 +327,8 @@ const T& Queue<T>::front() const
 template<class T>
 void Queue<T>::pushBack(const T& new_member)
 {
-    Queue<T>::Node* added_member=new Queue<T>::Node(new_member);
+    Queue<T>::Node* added_member=new Queue<T>::Node();
+    added_member->m_data=new_member;
     //added_member->m_next=nullptr;
     if(m_size!=0)
     {
@@ -597,7 +593,7 @@ template<class T>
 T& Queue<T>::Iterator::operator*() const
 {
     assert((index >= 0) && (index < (queue->size()))+1);
-    if(queue!= nullptr&&!this)
+    if(queue!= nullptr&&this!= nullptr)
     {
         Queue<T>::Node* temp=queue->m_member;
         for(int i=0;i<index;i++)

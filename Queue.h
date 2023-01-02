@@ -136,7 +136,6 @@ Queue<T>::Queue()
 
 template <class T>
 Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
-    int flag=0;
     Queue<T>::Node* single_node= nullptr;
     Queue<T>::Node* result_begin=new Queue<T>::Node();
     Queue<T>::Node* other_queue=queue.m_member;

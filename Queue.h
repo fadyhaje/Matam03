@@ -86,13 +86,6 @@ private:
 
 };
 
-
-template <class T>
-Queue<T> :: Queue(){
-    m_size=0;
-    m_member = nullptr;
-}
-
 template <class T>
 Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
 {
@@ -117,7 +110,6 @@ Queue<T>::Queue(const Queue<T>& queue):m_size(0),m_member(nullptr)
             }
             current_first_node=current_first_node->m_next;
         }
-        //m_size=queue.m_size;
     }
     else{
         return;
@@ -178,19 +170,20 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
     }
 }
 
-template <typename T,typename P>
-Queue<T> filter(const Queue<T> &queue,P function){
-    Queue<T> tmp;
-    for(typename Queue<T> :: ConstIterator i=queue.begin(); i!= queue.end();++i){
-        if(function(*i)){
-            tmp.pushBack(*i);
+template <typename T,typename Predict>
+Queue<T> filter(const Queue<T> &queue,Pedict function){
+    Queue<T> result;
+    for(typename Queue<T> :: ConstIterator index=queue.begin(); index!= queue.end();++index){
+        if(!function(*index)){
+            continue;
         }
+        result.pushBack(*index);
     }
-    return tmp;
+    return result;
 }
 
-template <typename T,typename P>
-void transform( Queue<T> &queue,P function)
+template <typename T,typename Predict>
+void transform( Queue<T> &queue,Predict function)
 {
     for(typename Queue<T>::Iterator index=queue.begin(); index!= queue.end();++index)
     {

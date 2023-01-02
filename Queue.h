@@ -127,6 +127,12 @@ Queue<T>::~Queue()
     }
     m_size=0;
 }
+template <class T>
+Queue<T>::Queue()
+{
+    m_size=0;
+    m_member=nullptr;
+}
 
 template <class T>
 Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
@@ -171,7 +177,7 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
 }
 
 template <typename T,typename Predict>
-Queue<T> filter(const Queue<T> &queue,Pedict function){
+Queue<T> filter(const Queue<T> &queue,Predict function){
     Queue<T> result;
     for(typename Queue<T> :: ConstIterator index=queue.begin(); index!= queue.end();++index){
         if(!function(*index)){
@@ -245,7 +251,7 @@ template <class T>
 void Queue<T> :: pushBack(const T& new_member){
     Queue<T>::Node* added_member=new Queue<T>::Node();
     Queue<T>::Node* temp=m_member;
-    added_member->m_data=new_member;    
+    added_member->m_data=new_member;
     if(m_size!=0)
     {
         while(temp->m_next!=nullptr)

@@ -175,7 +175,6 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
         (*this).~Queue();
         return *this;
     }
-    return *this;
 }
 
 template <typename T,typename Predict>

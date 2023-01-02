@@ -136,6 +136,7 @@ Queue<T>::Queue()
 
 template <class T>
 Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
+    int flag=0;
     Queue<T>::Node* single_node= nullptr;
     Queue<T>::Node* result_begin=new Queue<T>::Node();
     Queue<T>::Node* other_queue=queue.m_member;
@@ -165,15 +166,18 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
             other_queue=other_queue->m_next;
             result=result->m_next;
         }
-        (*this).~Queue();
         m_size=queue.m_size;
+        flag=1;
+    }
+    Queue<T>::Node* temp=m_member;
+    while(m_member!=nullptr){
+        m_member=m_member->m_next;
+        delete temp;
+      }
+    if(flag){
         m_member=result_begin;
-        return *this;
     }
-    else{
-        (*this).~Queue();
-        return *this;
-    }
+    return *this;
 }
 
 template <typename T,typename Predict>

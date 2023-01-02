@@ -177,68 +177,7 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
         return *this;
     }
 }
-/*
 
-
-template <class T>
-Queue<T>& Queue<T>:: operator=(const Queue<T>& queue)
-{
-    Queue<T>::Node* temp_first_node=new Node();
-    Queue<T>::Node* temp=temp_first_node;
-    Queue<T>::Node* other_queue=queue.m_member;
-    temp_first_node->m_data=other_queue->m_data;
-    temp_first_node->m_next=other_queue->m_next;
-    other_queue=other_queue->m_next;
-    Queue<T>::Node* single_node=nullptr;
-    if (this==&queue)
-    {
-        return *this;
-    }
-    if(other_queue!=nullptr){
-        while(other_queue!=nullptr)
-        {
-            try
-            {
-                single_node=new Node();
-            }
-            catch(std::bad_alloc& exception){
-                Queue<T>::Node* helper=nullptr;
-                while(temp_first_node!=nullptr)
-                {
-                    helper=temp_first_node;
-                    temp_first_node=temp_first_node->m_next;
-                    delete helper;
-                }
-                throw exception;
-            }
-            temp->m_next=single_node;
-            single_node->m_data=other_queue->m_data;
-            other_queue=other_queue->m_next;
-            temp=temp->m_next;
-        }
-        Queue<T>::Node* helper=nullptr;
-        while(m_member!=nullptr)
-        {
-            helper=m_member;
-            m_member=m_member->m_next;
-            delete helper;
-        }
-        m_size=queue.size();
-        m_member=temp_first_node;
-        return *this;
-    }
-    else
-    {
-        Queue<T>::Node* helper=nullptr;
-        while(m_member!=nullptr){
-            helper=m_member;
-            m_member=m_member->m_next;
-            delete helper;
-        }
-        return *this;
-    }
-}
-*/
 template <typename T,typename P>
 Queue<T> filter(const Queue<T> &queue,P function){
     Queue<T> tmp;
@@ -249,21 +188,6 @@ Queue<T> filter(const Queue<T> &queue,P function){
     }
     return tmp;
 }
-/*
-   Queue<T> result;
-   for(const T& member : queue)
-   {
-       if(c(member))
-       {
-           result.pushBack(member);
-       }
-
-   }
-   return result;
-
-
-}*/
-
 
 template <typename T,typename P>
 void transform( Queue<T> &queue,P function)
@@ -325,169 +249,24 @@ const T& Queue<T>::front() const
 
 
 template <class T>
-void Queue<T> :: pushBack(const T& newData){
-    Queue<T>::Node* ptr=new Queue<T>::Node();
-    ptr->m_data=newData;
-    // adding the first element/node
-    if(m_size==0)
+void Queue<T> :: pushBack(const T& new_member){
+    Queue<T>::Node* added_member=new Queue<T>::Node();
+    Queue<T>::Node* temp=m_member;
+    added_member->m_data=new_member;    
+    if(m_size!=0)
     {
-        m_member = ptr;
-    }
-    else {
-        Queue<T>::Node* tmp=m_member;
-        while(tmp->m_next!=nullptr){
-            tmp=tmp->m_next;
+        while(temp->m_next!=nullptr)
+        {
+            temp=temp->m_next;
         }
-        tmp->m_next=ptr;
+        temp->m_next=added_member;
+    }
+    else
+    {
+        m_member=added_member;
     }
     m_size++;
 }
-/*template<class T>
-T& Queue<T>:: front() const
-{
-    return m_member->m_data;
-
-}*/
-/*
-template<class T>
-class Queue<T>::Iterator Queue<T>::begin()
-{
-    return Iterator(this,0);
-}
-
-template<class T>
-class Queue<T>::ConstIterator Queue<T>::begin() const
-{
-    return ConstIterator(this, 0);
-}
-
-template<class T>
-class Queue<T>::Iterator Queue<T>::end()
-{
-    return Iterator(this, m_size);
-}
-
-template<class T>
-class Queue<T>::ConstIterator Queue<T>::end() const
-{
-    return ConstIterator(this, m_size);
-}
-
-//NODE CLASS//
-template<class T>
-class Queue<T>::Node{
-
-public:
-    Node()=default;
-    ~Node()=default;
-    Node(const Node& node)=default;
-
-private:
-    T m_data;
-    Queue<T>::Node* m_next;
-    friend class Queue<T>;
-    friend class Queue<T>::Iterator;
-
-};
-
-
-/////ITERATOR CLASS///////////////////////////////
-template<class T>
-class Queue<T>::Iterator{
-
-    Node* m_queue;
-
-    Iterator( Node* queue):m_queue(queue){}
-
-    friend class Queue<T>;
-
-public:
-    const T& operator*() const;
-
-    Iterator& operator++();
-
-    bool operator!=(const Iterator& it) const;
-
-    Iterator(const Iterator&)=default;
-
-    Iterator& operator=(const Iterator&)=default;
-
-};
-
-//////CONSTITERATOR CLASS/////////////////////////////////////////////////
-template<class T>
-class Queue<T>::ConstIterator{
-    const Node* m_queue;
-
-    ConstIterator( const Node* queue):m_queue(queue){}
-
-    friend class Queue<T>;
-
-public:
-
-    const T& operator*() const;
-
-    ConstIterator& operator++();
-
-    bool operator!=(const ConstIterator& it) const;
-
-    ConstIterator(const ConstIterator&)=default;
-
-    ConstIterator& operator=(const ConstIterator&)=default;
-
-};
-
-
-template<class T>
-const T& Queue<T>::Iterator:: operator*() const
-{
-    return m_queue->m_data;
-}
-
-template<class T>
-bool Queue<T>::Iterator::operator!=(const Iterator& it) const
-{
-    return (m_queue!=it.m_queue);
-}
-
-template<class T>
-typename Queue<T>::Iterator& Queue<T>::Iterator::operator++()
-{
-    if(m_queue)
-    {
-        m_queue=m_queue->m_next;
-
-    }
-
-    return *this;
-}
-
-
-template<class T>
-const T& Queue<T>::ConstIterator:: operator*() const
-{
-    return m_queue->m_data;
-}
-
-
-template<class T>
-bool Queue<T>::ConstIterator::operator!=(const ConstIterator& it) const{
-    return (m_queue!=it.m_queue);
-}
-
-
-template<class T>
-typename Queue<T>::ConstIterator& Queue<T>::ConstIterator::operator++(){
-    Queue<T>::Node* temp;
-    if(m_queue)
-    {
-        temp=m_queue->m_next;
-    }
-    *this=temp;
-    return *this;
-}
-*/
-
 
 template<class T>
 typename Queue<T>::Iterator Queue<T>::begin()
@@ -585,10 +364,7 @@ T& Queue<T>::Iterator::operator*() const
         temp=temp->m_next;
     }
     return temp->m_data;
-
-
 }
-
 
 template<class T>
 class Queue<T>::ConstIterator {
@@ -660,7 +436,8 @@ const T& Queue<T>::ConstIterator::operator*() const
     {
         temp=temp->m_next;
     }
-    return temp->m_data;}
+    return temp->m_data;
+}
 
 
 

@@ -166,17 +166,20 @@ Queue<T>& Queue<T>:: operator=(const Queue<T>& queue){
             other_queue=other_queue->m_next;
             result=result->m_next;
         }
+        Queue<T>::Node* temp=m_member;
+        while(m_member!=nullptr){
+            m_member=m_member->m_next;
+            delete temp;
+        }
         m_size=queue.m_size;
-        flag=1;
+        m_member=result_begin;
+        return *this;
     }
     Queue<T>::Node* temp=m_member;
     while(m_member!=nullptr){
         m_member=m_member->m_next;
         delete temp;
       }
-    if(flag){
-        m_member=result_begin;
-    }
     return *this;
 }
 
